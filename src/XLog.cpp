@@ -369,26 +369,31 @@ void XLog::Printf::expand(XLog *x, ...) {
 
     switch (*fmt) {
         case '%': {
+            fmt++;
             xlog << "%";
             break;
         }
         case 'd': {
+            fmt++;
             int i = va_arg(args, int*)[0];
             xlog << i;
             break;
         }
         case 'c': {
+            fmt++;
             unsigned char ch[2] = {0, 0};
             ch[0] = static_cast<char>(va_arg(args, int*)[0]);
             xlog << ch;
             break;
         }
         case 's': {
+            fmt++;
             const char *string = va_arg(args, const char **)[0];
             xlog << string;
             break;
         }
         case 'f': {
+            fmt++;
             double d = va_arg(args, double*)[0];
             xlog << d;
             break;
