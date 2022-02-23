@@ -211,20 +211,21 @@ public:
                         }
                         switch (*fmt) {
                             case '?':
+                                fmt++;
                                 xlog << input;
                                 break;
                             default:
-                                if (std::is_trivial_v<decltype(input)>) {
-                                    // pass by address to avoid the following error:
+                                if (std::is_trivial_v<std::remove_reference_t<decltype(input)>>) {
+                                    // pass-by-address to avoid the following error:
                                     //   In template: cannot pass object of non-trivial type
                                     //   'const std::string' through variadic method; call will
                                     //   abort at runtime
                                     expand(&xlog, &input);
                                 } else {
+                                    fmt++;
                                     xlog << input;
                                 }
                         }
-                        fmt++;
                         break;
                     } else {
                         ch[0] = *fmt;
